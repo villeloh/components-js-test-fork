@@ -32,11 +32,13 @@ export function usePersistentUserChoices(options: UsePersistentUserChoicesOption
   const [userChoices, setSettings] = React.useState<LocalUserChoices>(
     loadUserChoices(options.defaults, options.preventLoad ?? false),
   );
+  console.log('=============== called usePersistentUserChoices');
 
   const saveAudioInputEnabled = React.useCallback((isEnabled: boolean) => {
     setSettings((prev) => ({ ...prev, audioEnabled: isEnabled }));
   }, []);
   const saveVideoInputEnabled = React.useCallback((isEnabled: boolean) => {
+    console.log('=============== called saveVideoInputEnabled');
     setSettings((prev) => ({ ...prev, videoEnabled: isEnabled }));
   }, []);
   const saveAudioInputDeviceId = React.useCallback((deviceId: string) => {
@@ -50,8 +52,14 @@ export function usePersistentUserChoices(options: UsePersistentUserChoicesOption
   }, []);
 
   React.useEffect(() => {
+    console.log('=============== userChoices has updated; in useEffect');
     saveUserChoices(userChoices, options.preventSave ?? false);
   }, [userChoices, options.preventSave]);
+
+
+  React.useEffect(() => {
+    console.log('=============== userChoices.videoEnabled has updated; in useEffect');
+  }, [userChoices.videoEnabled]);
 
   return {
     userChoices,
